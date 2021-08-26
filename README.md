@@ -1,4 +1,5 @@
 # Introduction
+This repository encapsulates all UMD INST-377 projects, labs, etc.
 
 ## Teachers:
 - TBD
@@ -17,7 +18,9 @@
 - TBD
 
 ## Languages
-- TBD
+- JavaScript (Incl. Node.js)
+- CSS
+- HTML
 
 ## Programs
 - TBD
