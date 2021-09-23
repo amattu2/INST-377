@@ -71,6 +71,7 @@
 .photo-grid-container {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .carousel {
@@ -84,8 +85,16 @@
 
 .carousel-item {
   border: 1px solid #fff;
-  width: 300px;
-  height: 300px;
+  display: none;
+}
+
+.carousel-item.visible {
+  display: block;
+}
+
+.carousel-item img {
+  width: 500px;
+  height: auto;
 }
 
 .first-item {
@@ -94,6 +103,12 @@
 
 .last-item {
   order: -1;
+}
+
+button.previous,
+button.next {
+  height: 30px;
+  padding: 0 5px;
 }
 
 .footer {
