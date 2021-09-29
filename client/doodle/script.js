@@ -1,8 +1,13 @@
+// Global configuration
+const gameHeight = 600;
+var isGameOver = false;
+
+// DOM Event Listener
 document.addEventListener("DOMContentLoaded", (e) => {
   // Elements
   const grid = document.querySelector('.grid');
-  const doodler = createDoodler(grid);
 
+  start(grid);
 });
 
 /**
