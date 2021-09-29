@@ -12,6 +12,7 @@ body {
   height: 600px;
   background: yellow;
   position: relative;
+  overflow: hidden;
 }
 
 .doodler {
