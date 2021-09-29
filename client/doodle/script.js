@@ -1,6 +1,5 @@
 // Global configuration
 const gameHeight = 600;
-var platforms = [];
 var isGameOver = false;
 
 // DOM Event Listener
@@ -51,6 +50,7 @@ function createPlatforms(grid, count = 5) {
   if (!grid) return false;
 
   // Variables
+  let platforms = [];
   let gap = gameHeight / count;
 
   // Create N platforms
@@ -59,6 +59,25 @@ function createPlatforms(grid, count = 5) {
     let bottom = 100 + (i * gap);
     platforms.push(new Platform(grid, bottom));
   }
+
+  // Return platforms variable
+  return platforms;
+}
+
+function movePlatforms(platforms, doodler) {
+  // Checks
+  if (!platforms || !(platforms instanceof Array)) {
+    return false;
+  }
+  if (!doodler || parseInt(doodler.style.bottom.replace("px", "")) <= 200) {
+    return false;
+  }
+
+  // Move platforms
+  platforms.forEach((p) => {
+    p.bottom -= 4;
+    p.div.style.bottom = p.bottom + "px";
+  });
 }
 
 /**
@@ -75,8 +94,9 @@ function start(grid) {
   }
 
   // Start game
-  createDoodler(grid);
-  createPlatforms(grid, 5);
+  let doodler = createDoodler(grid);
+  let platforms = createPlatforms(grid, 5);
+  setInterval(function() { movePlatforms(platforms, doodler); }, 30);
 }
 
 /**
