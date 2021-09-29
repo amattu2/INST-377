@@ -3,6 +3,7 @@ const gameHeight = 600;
 let isGameOver = false;
 let isJumping, isGoingRight, isGoingLeft = false;
 let leftTimer, rightTimer = null;
+let score = 0;
 
 // DOM Event Listeners
 document.addEventListener("DOMContentLoaded", (e) => {
@@ -95,6 +96,7 @@ function start(grid) {
 function end() {
   alert("Game Over");
   isGameover = true;
+  document.querySelector('.grid').innerHTML = `<h1>${score}</h1>`;
 }
 
 /**
@@ -157,6 +159,7 @@ function fall(doodler, platforms) {
       if (p.bottom >= bottom && bottom <= p.bottom + 15 && left + 60 >= p.left && left <= p.left + 85) {
         clearInterval(interval);
         jump(doodler, platforms);
+        score++;
       }
     });
   }, 30);
