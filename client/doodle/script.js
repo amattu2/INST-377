@@ -1,5 +1,6 @@
 // Global configuration
 const gameHeight = 600;
+var platforms = [];
 var isGameOver = false;
 
 // DOM Event Listener
@@ -56,7 +57,7 @@ function createPlatforms(grid, count = 5) {
   for (let i = 0; i < count; i++) {
     // Variables
     let bottom = 100 + (i * gap);
-    let platform = new Platform(grid, bottom);
+    platforms.push(new Platform(grid, bottom));
   }
 }
 
