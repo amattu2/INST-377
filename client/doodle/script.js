@@ -36,6 +36,30 @@ function createDoodler(grid) {
   // Return handle
   return div;
 }
+
+/**
+ * Create N platforms for the game
+ *
+ * @param {DomElement} game container
+ * @param {int} number of platforms
+ * @author Alec M. <https://amattu.com>
+ * @date 2021-09-29T08:40:35-040
+ */
+function createPlatforms(grid, count = 5) {
+  // Checks
+  if (!grid) return false;
+
+  // Variables
+  let gap = gameHeight / count;
+
+  // Create N platforms
+  for (let i = 0; i < count; i++) {
+    // Variables
+    let bottom = 100 + (i * gap);
+    let platform = new Platform(grid, bottom);
+  }
+}
+
 /**
  * Run initial game functions
  *
@@ -51,4 +75,31 @@ function start() {
   // Start game
   createDoodler();
   createPlatforms();
+/**
+ * Game platform encapsulator
+ */
+class Platform {
+  /**
+   * Class Construct
+   *
+   * @param {DomElement} parent element
+   * @param {int} platform bottom
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-09-29T08:47:14-040
+   */
+  constructor(parent, bottom) {
+    // Class attributes
+    this.bottom = bottom;
+    this.left = Math.random() * 315;
+    this.div = document.createElement('div');
+
+    // Style element
+    this.div.classList.add('platform');
+    this.div.style.left = this.left + "px";
+    this.div.style.bottom = this.bottom + "px";
+
+    // Append to parent
+    parent.appendChild(this.div);
+  }
+}
 }
