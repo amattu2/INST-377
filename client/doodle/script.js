@@ -31,3 +31,19 @@ function createDoodler(grid) {
   // Return handle
   return div;
 }
+/**
+ * Run initial game functions
+ *
+ * @author Alec M. <https://amattu.com>
+ * @date 2021-09-29T08:44:00-040
+ */
+function start() {
+  // Check game status
+  if (isGameOver) {
+    return false;
+  }
+
+  // Start game
+  createDoodler();
+  createPlatforms();
+}
