@@ -1,14 +1,67 @@
 // Global configuration
 const gameHeight = 600;
-var isGameOver = false;
+let isGameOver = false;
+let isJumping, isGoingRight, isGoingLeft = false;
+let leftTimer, rightTimer = null;
 
-// DOM Event Listener
+// DOM Event Listeners
 document.addEventListener("DOMContentLoaded", (e) => {
   // Elements
   const grid = document.querySelector('.grid');
 
   start(grid);
 });
+
+
+function controlInput(e, doodler) {
+  switch (e.key) {
+    case "ArrowRight":
+      moveRight(e, doodler);
+      break;
+    case "ArrowUp":
+    case "Space":
+      moveStraight(doodler);
+      break;
+    case "ArrowLeft":
+      moveLeft(e, doodler);
+      break;
+  }
+}
+
+function moveStraight(doodler) {
+  isGoingLeft = false;
+  isGoingRight = false;
+  clearInterval(leftTimer);
+  clearInterval(rightTimer);
+}
+
+function moveLeft(e, doodler) {
+  isGoingLeft = true;
+  clearInterval(rightTimer);
+  leftTimer = setInterval(() => {
+    const left = parseInt(doodler.style.left.replace("px", "")) - 5;
+    if (left <= -5) {
+      isGoingLeft = false;
+      clearInterval(leftTimer);
+    } else {
+      doodler.style.left = left + "px";
+    }
+  }, 20);
+}
+
+function moveRight(e, doodler) {
+  isGoingRight = true;
+  clearInterval(leftTimer);
+  rightTimer = setInterval(() => {
+    const left = parseInt(doodler.style.left.replace("px", "")) + 5;
+    if (left >= 335) {
+      isGoingRight = false;
+      clearInterval(rightTimer);
+    } else {
+      doodler.style.left = left + "px";
+    }
+  }, 20);
+}
 
 /**
  * Run initial game functions
@@ -28,6 +81,9 @@ function start(grid) {
   let platforms = createPlatforms(grid, 5);
   let jumpInterval = jump(doodler);
   let moveInterval = setInterval(() => { movePlatforms(platforms, doodler); }, 30);
+  let controlListener = document.addEventListener("keyup", (event) => {
+    controlInput(event, doodler);
+  });
 }
 
 /**
@@ -49,7 +105,7 @@ function end() {
  * @author Alec M. <https://amattu.com>
  * @date 2021-09-29T09:06:04-040
  */
-function jump(doodler) {
+function jump(doodler, platforms) {
   let interval = setInterval(() => {
     if (isGameOver) { return; }
 
@@ -62,7 +118,7 @@ function jump(doodler) {
     // Move doodler down
     if (bottom > 380) {
       clearInterval(interval);
-      fall(doodler);
+      fall(doodler, platforms);
     }
   }, 30);
 
@@ -70,21 +126,39 @@ function jump(doodler) {
   return interval;
 }
 
-function fall(doodler) {
+/**
+ * Create a doodler fall interval
+ *
+ * @param {DomElement} doodler
+ * @return {IntervalID} setInterval return value
+ * @author Alec M. <https://amattu.com>
+ * @date 2021-09-29T09:06:04-040
+ */
+function fall(doodler, platforms) {
   let interval = setInterval(() => {
     if (isGameOver) { return; }
 
     // Variables
     const bottom = parseInt(doodler.style.bottom.replace("px", "")) - 5;
+    const left = parseInt(doodler.style.left.replace("px", ""));
 
     // Move doodler down
     doodler.style.bottom = bottom + "px";
 
     // Move doodler down
-    if (bottom <= 35) {
+    if (bottom <= -5) {
       clearInterval(interval);
       end();
     }
+    platforms.forEach((p) => {
+      if (isJumping) {
+        return;
+      }
+      if (p.bottom >= bottom && bottom <= p.bottom + 15 && left + 60 >= p.left && left <= p.left + 85) {
+        clearInterval(interval);
+        jump(doodler, platforms);
+      }
+    });
   }, 30);
 
   // Return ID
