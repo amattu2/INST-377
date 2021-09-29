@@ -79,8 +79,8 @@ function start(grid) {
   // Start game
   let doodler = createDoodler(grid);
   let platforms = createPlatforms(grid, 5);
-  let jumpInterval = jump(doodler);
-  let moveInterval = setInterval(() => { movePlatforms(platforms, doodler); }, 30);
+  let jumpInterval = jump(doodler, platforms);
+  let moveInterval = setInterval(() => { movePlatforms(platforms, doodler, grid); }, 30);
   let controlListener = document.addEventListener("keyup", (event) => {
     controlInput(event, doodler);
   });
@@ -227,7 +227,7 @@ function createPlatforms(grid, count = 5) {
  * @author Alec M. <https://amattu.com>
  * @date 2021-09-29T09:03:03-040
  */
-function movePlatforms(platforms, doodler) {
+function movePlatforms(platforms, doodler, grid) {
   // Checks
   if (!platforms || !(platforms instanceof Array)) {
     return false;
@@ -240,6 +240,12 @@ function movePlatforms(platforms, doodler) {
   platforms.forEach((p) => {
     p.bottom -= 5;
     p.div.style.bottom = p.bottom + "px";
+
+    if (p.bottom < 10) {
+      platforms[0].div.remove();
+      platforms.shift();
+      platforms.push(new Platform(grid, 600));
+    }
   });
 }
 
