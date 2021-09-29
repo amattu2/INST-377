@@ -63,18 +63,21 @@ function createPlatforms(grid, count = 5) {
 /**
  * Run initial game functions
  *
+ * @param {DomElement} game container
  * @author Alec M. <https://amattu.com>
  * @date 2021-09-29T08:44:00-040
  */
-function start() {
+function start(grid) {
   // Check game status
   if (isGameOver) {
     return false;
   }
 
   // Start game
-  createDoodler();
-  createPlatforms();
+  createDoodler(grid);
+  createPlatforms(grid, 5);
+}
+
 /**
  * Game platform encapsulator
  */
