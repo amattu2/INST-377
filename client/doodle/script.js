@@ -31,6 +31,17 @@ function start(grid) {
 }
 
 /**
+ * End game function
+ *
+ * @author Alec M. <https://amattu.com>
+ * @date 2021-09-29T09:12:35-040
+ */
+function end() {
+  alert("Game Over");
+  isGameover = true;
+}
+
+/**
  * Create a doodler jump interval
  *
  * @param {DomElement} doodler
@@ -40,6 +51,8 @@ function start(grid) {
  */
 function jump(doodler) {
   let interval = setInterval(() => {
+    if (isGameOver) { return; }
+
     // Variables
     const bottom = parseInt(doodler.style.bottom.replace("px", "")) + 20;
 
@@ -59,6 +72,8 @@ function jump(doodler) {
 
 function fall(doodler) {
   let interval = setInterval(() => {
+    if (isGameOver) { return; }
+
     // Variables
     const bottom = parseInt(doodler.style.bottom.replace("px", "")) - 5;
 
@@ -68,7 +83,7 @@ function fall(doodler) {
     // Move doodler down
     if (bottom <= 35) {
       clearInterval(interval);
-      jump(doodler);
+      end();
     }
   }, 30);
 
