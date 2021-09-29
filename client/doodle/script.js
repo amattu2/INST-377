@@ -11,6 +11,72 @@ document.addEventListener("DOMContentLoaded", (e) => {
 });
 
 /**
+ * Run initial game functions
+ *
+ * @param {DomElement} game container
+ * @author Alec M. <https://amattu.com>
+ * @date 2021-09-29T08:44:00-040
+ */
+function start(grid) {
+  // Check game status
+  if (isGameOver) {
+    return false;
+  }
+
+  // Start game
+  let doodler = createDoodler(grid);
+  let platforms = createPlatforms(grid, 5);
+  let jumpInterval = jump(doodler);
+  let moveInterval = setInterval(() => { movePlatforms(platforms, doodler); }, 30);
+}
+
+/**
+ * Create a doodler jump interval
+ *
+ * @param {DomElement} doodler
+ * @return {IntervalID} setInterval return value
+ * @author Alec M. <https://amattu.com>
+ * @date 2021-09-29T09:06:04-040
+ */
+function jump(doodler) {
+  let interval = setInterval(() => {
+    // Variables
+    const bottom = parseInt(doodler.style.bottom.replace("px", "")) + 20;
+
+    // Move doodler up
+    doodler.style.bottom = bottom + "px";
+
+    // Move doodler down
+    if (bottom > 380) {
+      clearInterval(interval);
+      fall(doodler);
+    }
+  }, 30);
+
+  // Return ID
+  return interval;
+}
+
+function fall(doodler) {
+  let interval = setInterval(() => {
+    // Variables
+    const bottom = parseInt(doodler.style.bottom.replace("px", "")) - 5;
+
+    // Move doodler down
+    doodler.style.bottom = bottom + "px";
+
+    // Move doodler down
+    if (bottom <= 35) {
+      clearInterval(interval);
+      jump(doodler);
+    }
+  }, 30);
+
+  // Return ID
+  return interval;
+}
+
+/**
  * Create a new doodler for the game
  *
  * @param {DOMElement} grid
@@ -64,6 +130,14 @@ function createPlatforms(grid, count = 5) {
   return platforms;
 }
 
+/**
+ * Move existing platforms downward
+ *
+ * @param {Array} current platforms
+ * @param {DomElement} doodler element
+ * @author Alec M. <https://amattu.com>
+ * @date 2021-09-29T09:03:03-040
+ */
 function movePlatforms(platforms, doodler) {
   // Checks
   if (!platforms || !(platforms instanceof Array)) {
@@ -75,28 +149,9 @@ function movePlatforms(platforms, doodler) {
 
   // Move platforms
   platforms.forEach((p) => {
-    p.bottom -= 4;
+    p.bottom -= 5;
     p.div.style.bottom = p.bottom + "px";
   });
-}
-
-/**
- * Run initial game functions
- *
- * @param {DomElement} game container
- * @author Alec M. <https://amattu.com>
- * @date 2021-09-29T08:44:00-040
- */
-function start(grid) {
-  // Check game status
-  if (isGameOver) {
-    return false;
-  }
-
-  // Start game
-  let doodler = createDoodler(grid);
-  let platforms = createPlatforms(grid, 5);
-  setInterval(function() { movePlatforms(platforms, doodler); }, 30);
 }
 
 /**
@@ -126,4 +181,7 @@ class Platform {
     parent.appendChild(this.div);
   }
 }
+
+class Doodler {
+
 }
