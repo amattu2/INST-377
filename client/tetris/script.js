@@ -1,5 +1,46 @@
   let squares = Array.from(buildUIGrids(grid, squareCount, squareCount - 10));
   let miniSquares = Array.from(buildUIGrids(miniGrid, 20, 0));
+  /**
+   * Redraw the current tetromino position
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:false11:false44-040
+   */
+  function draw() {
+    // Loop through new position and add class
+    current.forEach((i) => {
+      squares[currentPosition + i].classList.add("tetromino");
+    });
+  }
+
+  /**
+   * Remove the current tetromino divs
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:false11:false29-040
+   */
+  function undraw() {
+    // Loop through current position and remove class
+    current.forEach((i) => {
+      squares[currentPosition + i].classList.remove("tetromino");
+    });
+  }
+    // Undraw div
+    undraw();
+    // Redraw and recalculate
+    draw();
+      draw();
+    // Redraw
+    draw();
+    // Undraw position
+    undraw();
+    // Redraw position
+    draw();
+    // Undraw piece
+    undraw();
+    // Redraw piece
+    draw();
+      draw();
 /**
  * Append 200 divs to the game grid
  *
