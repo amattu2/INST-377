@@ -93,6 +93,45 @@ async function setup() {
     buildResultUI(results);
   }
 
+  /**
+   * Build the result UI section
+   *
+   * @param {Array} [results=[]]
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06T13:02:53-040
+   */
+  function buildResultUI(results = []) {
+    // Validate input
+    if (!results || !(results instanceof Array) || results.length <= 0) {
+      noResults.classList.remove("is-hidden");
+      table.classList.add("is-hidden");
+    } else {
+      noResults.classList.add("is-hidden");
+      table.classList.remove("is-hidden");
+    }
+
+    // Variables
+    const fragment = document.createDocumentFragment();
+
+    // Build Result Rows
+    // Limit to 26 results (Lag)
+    // We really should use pagination here
+    (results || []).splice(0, 25).forEach((resturant) => {
+      // Variables
+      const tr = document.createElement('tr');
+
+      // Attributes
+      tr.innerHTML = `<td>${resturant.name}</td><td>${resturant.city}</td><td>${resturant.state}</td><td>${resturant.zip}</td><td>${resturant.type}</td>`;
+
+      // Append
+      fragment.appendChild(tr);
+    });
+
+    // Append
+    tableResults.innerHTML = "";
+    tableResults.appendChild(fragment);
+  }
+
   // Event Listeners
   searchForm.onsubmit = (e) => {
     e.preventDefault();
