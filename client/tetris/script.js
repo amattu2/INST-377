@@ -63,7 +63,40 @@
         break;
     }
   }
+
+  /**
+   * Display a upcoming tetromino
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:09:false36-040
+   */
+  function displayNext() {
+    // Remove current tetromino piece
+    miniSquares.forEach((div) => {
+      div.classList.remove("tetromino");
+    });
+
+    // Redraw upcoming tetromino piece
+    upNextTetrominos[nextRandom].forEach((i) => {
+      miniSquares[displayIndex + i].classList.add("tetromino");
+    });
+  }
+
+  // Event listeners
+  document.addEventListener("keyup", control);
+  startBtn.addEventListener("click", () => {
+    if (timerID) {
+      clearInterval(timerID);
+      timerID = null;
+      startBtn.textContent = "Start Game";
+    } else {
       draw();
+      timerID = setInterval(moveDown, difficulty);
+      nextRandom = Math.floor(Math.random() * tetrominoes.length);
+      startBtn.textContent = "Pause Game";
+      displayNext();
+    }
+  });
 /**
  * Append 200 divs to the game grid
  *
