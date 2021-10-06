@@ -90,17 +90,18 @@ async function setup() {
     });
 
     // Build UI with results
-    buildResultUI(results);
+    buildResultUI(results, basis);
   }
 
   /**
    * Build the result UI section
    *
    * @param {Array} [results=[]]
+   * @param {String} basis to search matches
    * @author Alec M. <https://amattu.com>
    * @date 2021-10-06T13:02:53-040
    */
-  function buildResultUI(results = []) {
+  function buildResultUI(results = [], basis) {
     // Validate input
     if (!results || !(results instanceof Array) || results.length <= 0) {
       noResults.classList.remove("is-hidden");
@@ -111,6 +112,8 @@ async function setup() {
     }
 
     // Variables
+    const term = searchTerm.value;
+    const regex = new RegExp(term, "gi");
     const fragment = document.createDocumentFragment();
 
     // Build Result Rows
@@ -121,7 +124,8 @@ async function setup() {
       const tr = document.createElement('tr');
 
       // Attributes
-      tr.innerHTML = `<td>${resturant.name}</td><td>${resturant.city}</td><td>${resturant.state}</td><td>${resturant.zip}</td><td>${resturant.type}</td>`;
+      tr.innerHTML = `<td>${resturant.name}</td><td>${resturant.city}</td><td>${resturant.state}</td><td>${resturant.zip}</td><td>${resturant.type}</td>`
+        .replace(regex, "<b class='has-background-info'>" + term + "</b>");
 
       // Append
       fragment.appendChild(tr);
