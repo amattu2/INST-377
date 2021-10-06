@@ -1,5 +1,64 @@
+// Configuration
+const squareCount = 200;
+const width = 10;
+const displayWidth = 4;
+const lTetromino = [
+  [1, width + 1, width * 2 + 1, 2],
+  [width, width + 1, width + 2, width * 2 + 2],
+  [1, width + 1, width * 2 + 1, width * 2],
+  [width, width * 2, width * 2 + 1, width * 2 + 2]
+];
+const zTetromino = [
+  [0, width, width + 1, width * 2 + 1],
+  [width + 1, width + 2, width * 2, width * 2 + 1],
+  [0, width, width + 1, width * 2 + 1],
+  [width + 1, width + 2, width * 2, width * 2 + 1]
+];
+const tTetromino = [
+  [1, width, width + 1, width + 2],
+  [1, width + 1, width + 2, width * 2 + 1],
+  [width, width + 1, width + 2, width * 2 + 1],
+  [1, width, width + 1, width * 2 + 1]
+];
+const oTetromino = [
+  [0, 1, width, width + 1],
+  [0, 1, width, width + 1],
+  [0, 1, width, width + 1],
+  [0, 1, width, width + 1]
+];
+const iTetromino = [
+  [1, width + 1, width * 2 + 1, width * 3 + 1],
+  [width, width + 1, width + 2, width + 3],
+  [1, width + 1, width * 2 + 1, width * 3 + 1],
+  [width, width + 1, width + 2, width + 3]
+];
+
+// Event listeners
+document.addEventListener("DOMContentLoaded", () => {
+  // Variables
+  const tetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino];
+  const upNextTetrominos = [
+    [1, displayWidth + 1, displayWidth * 2 + 1, 2], /* lTetromino */
+    [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], /* zTetromino */
+    [1, displayWidth, displayWidth + 1, displayWidth + 2], /* tTetromino */
+    [0, 1, displayWidth, displayWidth + 1], /* oTetromino */
+    [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1] /* iTetromino */
+  ];
+  const grid = document.querySelector('.grid');
+  const miniGrid = document.querySelector('.mini-grid');
+  const startBtn = document.querySelector("#start-button");
+  const difficulty = 500;
   let squares = Array.from(buildUIGrids(grid, squareCount, squareCount - 10));
   let miniSquares = Array.from(buildUIGrids(miniGrid, 20, 0));
+  let currentPosition = 4;
+  let currentRotation = 0;
+  let nextRandom = 0;
+  let random = 0;
+  let current = tetrominoes[0][0];
+  let timerID = null;
+  let displayIndex = 0;
+  let score = 0;
+
   /**
    * Redraw the current tetromino position
    *
@@ -25,21 +84,118 @@
       squares[currentPosition + i].classList.remove("tetromino");
     });
   }
+
+  /**
+   * Move tetromino downward
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:false11:false18-040
+   */
+  function moveDown() {
     // Undraw div
     undraw();
+
+    // Move down
+    currentPosition += width;
+
     // Redraw and recalculate
     draw();
+    freeze();
+  }
+
+  /**
+   * Generate a new tetromino
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:false11:06-040
+   */
+  function freeze() {
+    // Iterate through current pieces, find end of game grid
+    if (current.some((i) => squares[currentPosition + i + width].classList.contains("taken"))) {
+      // Update classes for finished piece
+      current.forEach((i) => squares[currentPosition + i].classList.add("taken"));
+
+      // Find new tetromino piece
+      random = nextRandom;
+      nextRandom = Math.floor(Math.random() * tetrominoes.length);
+      current = tetrominoes[random][currentRotation];
+      currentPosition = 4;
+
+      // Perorm recalculations
       draw();
-    // Redraw
-    draw();
+      displayNext();
+      addScore();
+      gameOver();
+    }
+  }
+
+  /**
+   * Move the current tetromino left
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:false10:false54-040
+   */
+  function moveLeft() {
     // Undraw position
     undraw();
+
+    // Move left if possible
+    if (!current.some((i) => (currentPosition + i) % width === 0)) {
+      currentPosition -= 1;
+    }
+    if (current.some((i) => squares[currentPosition + i].classList.contains("taken"))) {
+      currentPosition += 1;
+    }
+
+    // Redraw
+    draw();
+  }
+
+  /**
+   * Move the current tetromino right
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:false10:false42-040
+   */
+  function moveRight() {
+    // Undraw position
+    undraw();
+
+    // Move right if possible
+    if (!current.some((i) => (currentPosition + i) % width === width - 1)) {
+      currentPosition += 1;
+    }
+    if (current.some((i) => squares[currentPosition + i].classList.contains("taken"))) {
+      currentPosition -= 1;
+    }
+
     // Redraw position
     draw();
+  }
+
+  /**
+   * Rotate the current tetromino
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:false10:false25-040
+   */
+  function rotate() {
     // Undraw piece
     undraw();
+
+    // Rotate clockwise
+    currentRotation++;
+    if (currentRotation === current.length) {
+      currentRotation = 0;
+    }
+
+    // Update rotation
+    current = tetrominoes[random][currentRotation];
+
     // Redraw piece
     draw();
+  }
+
   /**
    * Handle IO controls
    *
@@ -122,6 +278,7 @@
       }
     }
   }
+
   /**
    * Determine the end of the game
 
@@ -135,6 +292,8 @@
       clearInterval(timerID);
     }
   }
+});
+
 /**
  * Append 200 divs to the game grid
  *
