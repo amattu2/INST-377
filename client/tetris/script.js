@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Redraw the current tetromino position
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:false11:false44-040
+   * @date 2021-10-06T11:11:44-040
    */
   function draw() {
     // Loop through new position and add class
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Remove the current tetromino divs
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:false11:false29-040
+   * @date 2021-10-06T11:11:29-040
    */
   function undraw() {
     // Loop through current position and remove class
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Move tetromino downward
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:false11:false18-040
+   * @date 2021-10-06T11:11:18-040
    */
   function moveDown() {
     // Undraw div
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Generate a new tetromino
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:false11:06-040
+   * @date 2021-10-06T11:11:06-040
    */
   function freeze() {
     // Iterate through current pieces, find end of game grid
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Move the current tetromino left
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:false10:false54-040
+   * @date 2021-10-06T11:10:54-040
    */
   function moveLeft() {
     // Undraw position
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Move the current tetromino right
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:false10:false42-040
+   * @date 2021-10-06T11:10:42-040
    */
   function moveRight() {
     // Undraw position
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Rotate the current tetromino
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:false10:false25-040
+   * @date 2021-10-06T11:10:25-040
    */
   function rotate() {
     // Undraw piece
@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
    *
    * @param {Event} input event
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:09:false59-040
+   * @date 2021-10-06T11:09:59-040
    */
   function control(e) {
     switch (e.keyCode) {
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Display a upcoming tetromino
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:09:false36-040
+   * @date 2021-10-06T11:09:36-040
    */
   function displayNext() {
     // Remove current tetromino piece
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Keep track of game score
    *
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:09:07-040
+   * @date 2021-10-06T11:09:07-040
    */
   function addScore() {
     // Iterate through each grid div
@@ -283,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Determine the end of the game
 
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-06Tfalse11:08:false30-040
+   * @date 2021-10-06T11:08:30-040
    */
   function gameOver() {
     // Check if tetromino is at the top of the grid
