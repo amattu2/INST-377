@@ -40,6 +40,29 @@
     undraw();
     // Redraw piece
     draw();
+  /**
+   * Handle IO controls
+   *
+   * @param {Event} input event
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:09:false59-040
+   */
+  function control(e) {
+    switch (e.keyCode) {
+      case 37:
+        moveLeft();
+        break;
+      case 38:
+        rotate();
+        break;
+      case 39:
+        moveRight();
+        break;
+      case 40:
+        moveDown();
+        break;
+    }
+  }
       draw();
 /**
  * Append 200 divs to the game grid
