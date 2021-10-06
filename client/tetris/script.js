@@ -122,6 +122,19 @@
       }
     }
   }
+  /**
+   * Determine the end of the game
+
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:08:false30-040
+   */
+  function gameOver() {
+    // Check if tetromino is at the top of the grid
+    if (current.some(index => squares[currentPosition + index].classList.contains("taken"))) {
+      document.querySelector("#score").textContent = "Over";
+      clearInterval(timerID);
+    }
+  }
 /**
  * Append 200 divs to the game grid
  *
