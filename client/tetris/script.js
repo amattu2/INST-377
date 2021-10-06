@@ -97,6 +97,31 @@
       displayNext();
     }
   });
+
+  /**
+   * Keep track of game score
+   *
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-06Tfalse11:09:07-040
+   */
+  function addScore() {
+    // Iterate through each grid div
+    for (let i = 0; i < squareCount; i ++) {
+      const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9];
+
+      // Check if tetromino is at the end
+      if (row.every(idx => squares[idx].classList.contains("taken") && !squares[idx].classList.contains("immutable"))) {
+        score += 10;
+        document.querySelector("#score").textContent = score;
+        row.forEach(idx => {
+          squares[idx].classList.remove("taken", "tetromino");
+        });
+        const squaresRemoved = squares.splice(i, width);
+        squares = squaresRemoved.concat(squares);
+        squares.forEach(cell => grid.appendChild(cell));
+      }
+    }
+  }
 /**
  * Append 200 divs to the game grid
  *
