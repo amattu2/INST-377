@@ -1,7 +1,7 @@
 {
-  "name": "sequelize",
+  "name": "node-sequelize",
   "version": "1.0.0",
-  "description": "This repository encapsulates all UMD INST-377 projects, labs, etc.",
+  "description": "",
   "main": "server.js",
   "type": "module",
   "engines": {
@@ -33,13 +33,5 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-import": "^2.22.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/amattu2/INST-377.git"
-  },
-  "bugs": {
-    "url": "https://github.com/amattu2/INST-377/issues"
-  },
-  "homepage": "https://github.com/amattu2/INST-377#readme"
+  }
 }
