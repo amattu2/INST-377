@@ -1,6 +1,10 @@
 /**
  * Author: Alec K. Mattu
  * Date: 2021-10-06
+ * Notes:
+ *   - The search results don't use pagination, but limit to 26 top results
+ *   - This code is HTML/JS injectable by using an unvalidated API
+ *   - There's more efficient ways to achieve these results, but I used the simpliest
  */
 
 async function setup() {
@@ -90,18 +94,17 @@ async function setup() {
     });
 
     // Build UI with results
-    buildResultUI(results, basis);
+    buildResultUI(results);
   }
 
   /**
    * Build the result UI section
    *
    * @param {Array} [results=[]]
-   * @param {String} basis to search matches
    * @author Alec M. <https://amattu.com>
    * @date 2021-10-06T13:02:53-040
    */
-  function buildResultUI(results = [], basis) {
+  function buildResultUI(results = []) {
     // Validate input
     if (!results || !(results instanceof Array) || results.length <= 0) {
       noResults.classList.remove("is-hidden");
