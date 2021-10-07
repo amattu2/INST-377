@@ -129,8 +129,8 @@ async function setup() {
       const tr = document.createElement('tr');
 
       // Attributes
-      tr.innerHTML = `<td>${resturant.name}</td><td>${resturant.city}</td><td>${resturant.state}</td><td>${resturant.zip}</td><td>${resturant.type}</td>`
-        .replace(regex, "<b class='has-background-info'>" + term + "</b>");
+      tr.innerHTML = `<td>${resturant.name.toUpperCase()}</td><td>${resturant.city}</td><td>${resturant.state}</td><td>${resturant.zip}</td><td>${resturant.type}</td>`
+        .replace(regex, "<b class='has-background-info'>" + term.toUpperCase() + "</b>");
 
       // Append
       fragment.appendChild(tr);
