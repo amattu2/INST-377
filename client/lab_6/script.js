@@ -74,8 +74,10 @@ async function setup() {
    */
   function findMatches(e, data = []) {
     // Validate input
-    if (searchTerm.value.length <= 2)
+    if (searchTerm.value.length <= 2) {
+      buildResultUI();
       return;
+    }
 
     // Variables
     const query = searchTerm.value.toLowerCase(); // Case insensitive
