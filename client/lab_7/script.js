@@ -65,6 +65,13 @@ async function setup() {
   const searchTerm = document.querySelector("#search-term");
 
   /**
+   * Search Map Div
+   *
+   * @type {LeafletMap}
+   */
+  const map = L.map('result-map');
+
+  /**
    * Find search result matches by term
    *
    * @param {Object} Firing event
@@ -122,14 +129,12 @@ async function setup() {
     const fragment = document.createDocumentFragment();
 
     // Build Result Rows
-    // Limit to 26 results (Lag)
-    // We really should use pagination here
-    (results || []).splice(0, 25).forEach((resturant) => {
+    (results || []).splice(0, 4).forEach((resturant) => {
       // Variables
       const tr = document.createElement('tr');
 
       // Attributes
-      tr.innerHTML = `<td>${resturant.name.toUpperCase()}</td><td>${resturant.city}</td><td>${resturant.state}</td><td>${resturant.zip}</td><td>${resturant.type}</td>`
+      tr.innerHTML = `<td>${resturant.name.toUpperCase()}</td>`
         .replace(regex, "<b class='has-background-info'>" + term.toUpperCase() + "</b>");
 
       // Append
@@ -148,6 +153,17 @@ async function setup() {
     findMatches(e, data);
   };
   searchTerm.onkeyup = (e) => findMatches(e, data);
+
+  // temp
+  map.setView([51.505, -0.09], 13);
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: '',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiYW1hdHR1IiwiYSI6ImNrdWw1eGxheTNldGUydXFsbjBpcm52M28ifQ.vm917QE5p4Dk7wvHRRLwUw'
+  }).addTo(map);
 }
 
 // Load API data automatically
