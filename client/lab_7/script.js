@@ -1,6 +1,6 @@
 /**
  * Author: Alec K. Mattu
- * Date: 2021-10-06
+ * Date: 2021-10-10
  * Notes:
  *   - The search results don't use pagination, but limit to 26 top results
  *   - This code is HTML/JS injectable by using an unvalidated API
