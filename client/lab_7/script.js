@@ -178,7 +178,7 @@ async function setup() {
 
     // Add new markers
     locations.forEach((loc) => {
-      markers.push(new L.Marker([loc[1][1], loc[1][0]], {draggable: false}).bindPopup(`${loc[0]}`).openPopup());
+      markers.push(new L.Marker([loc[1][1], loc[1][0]], {draggable: false}).bindPopup(loc[0]).openPopup());
     });
     markers.forEach((m) => map.addLayer(m));
 
