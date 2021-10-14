@@ -183,7 +183,7 @@ async function setup() {
     markers.forEach((m) => map.addLayer(m));
 
     // Default view
-    map.setView([locations[1][0][1], locations[1][0][0]], 12);
+    map.setView([locations[0][1][1], locations[0][1][0]], 12);
   }
 
   // Event Listeners
