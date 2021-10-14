@@ -72,6 +72,13 @@ async function setup() {
   const map = L.map('result-map');
 
   /**
+   * Map Marker Elements
+   *
+   * @type {Array}
+   */
+  let markers = [];
+
+  /**
    * Find search result matches by term
    *
    * @param {Object} Firing event
@@ -127,6 +134,7 @@ async function setup() {
     const term = searchTerm.value;
     const regex = new RegExp(term, "gi");
     const fragment = document.createDocumentFragment();
+    const coords = [];
 
     // Build Result Rows
     (results || []).splice(0, 4).forEach((resturant) => {
@@ -136,15 +144,45 @@ async function setup() {
       // Attributes
       tr.innerHTML = `<td>${resturant.name.toUpperCase()}</td>`
         .replace(regex, "<b class='has-background-info'>" + term.toUpperCase() + "</b>");
-      console.log(resturant)
 
       // Append
       fragment.appendChild(tr);
+      coords.push((resturant.geocoded_column_1.coordinates || []));
     });
 
     // Append
     tableResults.innerHTML = "";
     tableResults.appendChild(fragment);
+
+    // Update Map
+    buildMarkers(coords);
+  }
+
+  /**
+   * Build the map with locations specified
+   *
+   * @param {Array} [locations=[]]
+   * @author Alec M. <https://amattu.com>
+   * @date 2021-10-14T08:false16:false27-040
+   */
+  function buildMarkers(locations = []) {
+    // Remove old markers
+    markers.forEach((m) => map.removeLayer(m));
+
+    // Check locations
+    if (!locations || locations.length <= 0) {
+      map.setView([38.83986, -76.941642], 5);
+      return;
+    }
+
+    // Add new markers
+    locations.forEach((coords) => {
+      markers.push(new L.Marker(coords.reverse(), {draggable: false}));
+    });
+    markers.forEach((m) => map.addLayer(m));
+
+    // Default view
+    map.setView(locations[0].reverse(), 13);
   }
 
   // Event Listeners
@@ -155,8 +193,7 @@ async function setup() {
   };
   searchTerm.onkeyup = (e) => findMatches(e, data);
 
-  // temp
-  map.setView([51.505, -0.09], 13);
+  // Build Map Layer
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: '',
     maxZoom: 18,
@@ -165,6 +202,7 @@ async function setup() {
     zoomOffset: -1,
     accessToken: 'pk.eyJ1IjoiYW1hdHR1IiwiYSI6ImNrdWw1eGxheTNldGUydXFsbjBpcm52M28ifQ.vm917QE5p4Dk7wvHRRLwUw'
   }).addTo(map);
+  map.setView([38.83986, -76.941642], 5);
 }
 
 // Load API data automatically
