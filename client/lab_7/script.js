@@ -147,7 +147,7 @@ async function setup() {
 
       // Append
       fragment.appendChild(tr);
-      coords.push((resturant.geocoded_column_1.coordinates || []));
+      coords.push([resturant.name.toUpperCase(), resturant.geocoded_column_1.coordinates]);
     });
 
     // Append
@@ -168,6 +168,7 @@ async function setup() {
   function buildMarkers(locations = []) {
     // Remove old markers
     markers.forEach((m) => map.removeLayer(m));
+    markers = [];
 
     // Check locations
     if (!locations || locations.length <= 0) {
@@ -176,17 +177,22 @@ async function setup() {
     }
 
     // Add new markers
-    locations.forEach((coords) => {
-      markers.push(new L.Marker(coords.reverse(), {draggable: false}));
+    locations.forEach((loc) => {
+      markers.push(new L.Marker([loc[1][1], loc[1][0]], {draggable: false}).bindPopup(`${loc[0]}`).openPopup());
     });
     markers.forEach((m) => map.addLayer(m));
 
     // Default view
-    map.setView(locations[0].reverse(), 13);
+    map.setView([locations[1][0][1], locations[1][0][0]], 12);
   }
 
   // Event Listeners
   searchForm.onsubmit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    findMatches(e, data);
+  };
+  searchTerm.onsubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
     findMatches(e, data);
