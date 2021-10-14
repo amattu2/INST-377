@@ -20,14 +20,14 @@ async function setup() {
    *
    * @type {Object}
    */
-  let request = await fetch(endpoint);
+  const request = await fetch(endpoint);
 
   /**
    * API Search Result
    *
    * @type {Object}
    */
-  let data = await request.json();
+  const data = await request.json();
 
   /**
    * Query Result Table
@@ -87,7 +87,7 @@ async function setup() {
     }
 
     // Variables
-    const query = searchTerm.value.toLowerCase(); // Case insensitive
+    const query = searchTerm.value.toLowerCase(); // Case insensitive search
     const basis = document.querySelector('input[name="search_type"]:checked').value;
     let results = [];
 
@@ -95,7 +95,7 @@ async function setup() {
     data.forEach((d) => {
       if (basis === "name" && d.name.toLowerCase().includes(query)) {
         results.push(d);
-        return; // Skip next IF-stmt for efficiency
+        return;
       }
       if (basis === "zip" && d.zip.includes(query)) {
         results.push(d);
@@ -136,6 +136,7 @@ async function setup() {
       // Attributes
       tr.innerHTML = `<td>${resturant.name.toUpperCase()}</td>`
         .replace(regex, "<b class='has-background-info'>" + term.toUpperCase() + "</b>");
+      console.log(resturant)
 
       // Append
       fragment.appendChild(tr);
