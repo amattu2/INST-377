@@ -142,7 +142,7 @@ async function setup() {
       const tr = document.createElement('tr');
 
       // Attributes
-      tr.innerHTML = `<td>${resturant.name.toUpperCase()}</td>`
+      tr.innerHTML = `<td>${resturant.name.toUpperCase()}</td><td>${resturant.address_line_1}</td><td>${resturant.city}, ${resturant.state}</td>`
         .replace(regex, "<b class='has-background-info'>" + term.toUpperCase() + "</b>");
 
       // Append
@@ -163,7 +163,7 @@ async function setup() {
    *
    * @param {Array} [locations=[]]
    * @author Alec M. <https://amattu.com>
-   * @date 2021-10-14T08:false16:false27-040
+   * @date 2021-10-14T08:16:27-040
    */
   function buildMarkers(locations = []) {
     // Remove old markers
